@@ -1,0 +1,14 @@
+# Python
+_pycache_/
+*.pyc
+# OS
+.DS_Store
+# Virtual Environment
+venv/
+# IDE/Editor
+.vscode/
+.idea
+# Django
+*.sqlite3
+# Secrets
+.env
