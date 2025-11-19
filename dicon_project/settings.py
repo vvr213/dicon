@@ -58,10 +58,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dicon_project.urls'
 
+# 修正（templatesフォルダの定義を追加）
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'dicon_app' / 'templates'], # ← この行を追加11/19資料にない
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

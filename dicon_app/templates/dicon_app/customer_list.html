@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>顧客一覧</title>
+</head>
+<body>
+    <h1>顧客一覧</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>会社名</th>
+                <th>担当者名</th>
+                <th>メールアドレス</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                <tr>
+                    <td>
+                        <a href="{% url 'customer_detail' customer.pk %}">
+                            {{ customer.company_name }}
+                        </a>
+                    </td>
+                <   td>{{ customer.contact_name }}</td>
+                    <td>{{ customer.email }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">顧客データがありません。</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    </body>
+</html>
