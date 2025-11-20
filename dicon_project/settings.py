@@ -62,7 +62,7 @@ ROOT_URLCONF = 'dicon_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'dicon_app' / 'templates'], # ← この行を追加11/19資料にない
+        'DIRS': [BASE_DIR / 'dicon_app' / 'templates'], # ← この行を追加 11/19資料にない
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -13,7 +13,7 @@
         <p><strong>担当営業:</strong> {{ customer.user | default:"未割り当て" }}</p>
         <p><strong>タグ:</strong>
             {% for tag in customer.tags.all %}
-            <span style="background-color: #eee; padding: 2px;">{{ tag.name }}</span>{% endfor %}
+            <span style="background-color: #eee; padding: 2px;">{{ tag.name }}</span>
             {% empty %}
             -
             {% endfor %}

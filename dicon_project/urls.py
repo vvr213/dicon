@@ -14,21 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
-# from django.urls import path, include # include をインポート
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     # http://127.0.0.1:8000/ へのアクセスを dicon_app(dicon_app)の urls.py に引き渡す
-#     path('', include('dicon_app.urls')),
-# ]
 
 from django.contrib import admin
 from django.urls import path, include # include をインポート
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    # http://127.0.0.1:8000/ へのアクセスを crmであるdicon_app の urls.py に引き渡す
+
+    # http://127.0.0.1:8000/ へのアクセスを crm_app(dicon_app)のurls.py に引き渡す
     path('', include('dicon_app.urls')),
 ]
