@@ -6,7 +6,11 @@
     </head>
     <body>
         <h1>{{ customer.company_name }}</h1>
-    
+
+        <p>
+            <a href="{% url 'customer_update' customer.pk %}">[　編集する　]</a>
+            <a href="{% url 'customer_delete' customer.pk %}" style="color: red;">[　削除する　]</a>
+        </p>          
         <p><strong>担当者名:</strong> {{ customer.contact_name }}</p>
         <p><strong>メール:</strong> {{ customer.email }}</p>
         <p><strong>電話番号:</strong> {{ customer.phone | default:"-" }}</p>
