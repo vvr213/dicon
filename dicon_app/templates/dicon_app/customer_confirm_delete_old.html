@@ -1,0 +1,20 @@
+ <!-- customer_conform_delite.html(未登録) -->
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>削除の確認</title>
+    </head>
+    <body>
+        <h1>{{ object.company_name}}を本当に削除しますか？</h1>
+
+        <p>この操作は元に戻せません。</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" style="color:red;">はい、削除します</button>
+
+            <a href="{% url 'customer_detail' object.pk %}">いいえ、キャンセルします</a>
+        </form>    
+    </body>
+</html>

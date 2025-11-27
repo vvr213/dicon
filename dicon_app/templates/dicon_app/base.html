@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CRMアプリケーション{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <span>Django DICON</span>
+            {% if user.is_authenticated %}
+                <span>こんにちは、{{ user.username }} さん</span> |
+                <a href="{% url 'customer_list' %}">顧客一覧</a> |
+                <a href="{% url 'customer_create' %}">顧客登録</a> |
+                <form action ="{% url 'logout' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer; padding: 0; font-family: inherit; font-size: inherit;">
+                    ログアウト
+                </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">ログイン</a>
+            {% endif %}
+        </nav>
+    </header>
+    <hr>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+</body>
+</html>

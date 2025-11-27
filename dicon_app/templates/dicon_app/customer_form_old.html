@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">       
+        <title>{% if object %}{{ object.company_name}} の編集{% else %}顧客の新規登録{% endif %}</title>
+    </head>
+    <body>
+        <h1>{% if object %}{{ object.company_name}} の編集{% else %}顧客の新規登録{% endif %}</h1>
+
+        <form method="POST">
+            {% csrf_token %} {{ form.as_p }}
+
+            <button type="submit">保存する</button>
+        </form>
+
+        <br>
+        <a href="{% url 'customer_list' %}">一覧に戻る</a>
+    </body>
+</html>

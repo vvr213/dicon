@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>顧客一覧</title>
-</head>
-<body>
-    <h1>顧客一覧</h1>
-
+{% extends 'dicon_app/base.html' %}{% block title %}顧客一覧{% endblock %}
+{% block content %}<h1>顧客一覧</h1>
     <p>
         <a href="{% url 'customer_create' %}">＋ 新しい顧客を登録する</a>
-    </p>      
+    </p>
+
     <table border="1">
         <thead>
             <tr>
@@ -37,5 +31,4 @@
         </tbody>
     </table>
 
-    </body>
-</html>
+{% endblock %}

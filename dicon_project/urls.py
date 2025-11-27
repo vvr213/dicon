@@ -21,6 +21,9 @@ from django.urls import path, include # include をインポート
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # Djangoの標準の認証URL （login,logoutなど）Proには０'accounts/'良いうパスで読み込む
+    path('accounts/', include('django.contrib.auth.urls')),
+
     # http://127.0.0.1:8000/ へのアクセスを crm_app(dicon_app)のurls.py に引き渡す
     path('', include('dicon_app.urls')),
 ]

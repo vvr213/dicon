@@ -1,6 +1,12 @@
-{% extends 'dicon_app/base.html' %}{% block title %}{{ customer.company_name }}の詳細{% endblock %}
-{% block content %}<h1>{{ customer.company_name }}</h1>
-        
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ customer.company_name }} の詳細</title>
+    </head>
+    <body>
+        <h1>{{ customer.company_name }}</h1>
+
         <p>
             <a href="{% url 'customer_update' customer.pk %}">[　編集する　]</a>
             <a href="{% url 'customer_delete' customer.pk %}" style="color: red;">[　削除する　]</a>
@@ -35,4 +41,5 @@
 
         <hr>
         <a href="{% url 'customer_list' %}">一覧に戻る</a>
-{% endblock %}
+    </body>
+</html>
