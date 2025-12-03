@@ -3,30 +3,51 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView,De
 from django.urls import reverse_lazy # リダイレクト先を指定するためにインポート
 from .models import Customer
 from .forms import CustomerForm # 作成したフォームをインポート
-from django.contrib.auth.mixins import LoginRequiredMixin # 11/26インポート書いた
+from django.contrib.auth.mixins import LoginRequiredMixin # 11/26インポート
+from django.db.models import Q # 12/3インポート
 
-# ---------1119入力ここから（上記一部除く）
 # ---------1126入力→作成したすべてのCBV５つにLoginRequiredMixin, を追加（先に書くのが慣例）
   
 # 顧客一覧を表示するビュー（ListViewを継承）   
 class CustomerListView(LoginRequiredMixin, ListView):
-    # 1. どのモデルのデータを取得するか
-    model = Customer
-    # 2. どのテンプレートファイルを使うか
-    template_name = 'dicon_app/customer_list.html'
-    # 3. テンプレート内で使う変数名（指定しない場合、 'object_list' になる）
-    context_object_name = 'customers'
-    # おまけ: 1ページに表示する件数（ページネーション）
-    paginate_by = 10
+    
+    model = Customer # 1. どのモデルのデータを取得するか
+    template_name = 'dicon_app/customer_list.html' # 2. どのテンプレートファイルを使うか
+    context_object_name = 'customers' # 3. テンプレート内で使う変数名（指定なしは'object_list'になる）
+    paginate_by = 10# おまけ: 1ページに表示する件数（ページネーション）
 
     # おまけ: 並び順の指定（会社名順）
     #queryset = Customer.objects.all().order_by('company_name')
 
-    # このメソッドをオーバーライド（追記）
+    # # このメソッドをオーバーライド（追記）
+    # def get_queryset(self): # ログインしているユーザー(self.request.user)が担当する
+    #     return Customer.objects.filter(user=self.request.user).order_by('company_name') # 顧客データのみを会社（名）で取得する
+    # 1203修正のためコメアウト
+
     def get_queryset(self):
-        # ログインしているユーザー(self.request.user)が担当する
-        # 顧客データのみを会社で取得する
-        return Customer.objects.filter(user=self.request.user).order_by('company_name')
+        #1. まず、基本となる「自分の担当顧客」を取得（第５回目の内容）
+        queryset = Customer.objects.filter(user=self.request.user).order_by('company_name')
+
+        #2. GETパラメータから　'query'（検索キーワード）を取得
+        query = self.request.GET.get('query')
+
+        #3. キーワードが存在する場合のみ絞り込みを行う
+        if query:
+            # Qオブジェクトを使って「OR条件」を構築
+            # icontains は　「大文字小文字を区別しない部分一致」
+            queryset = queryset.filter(
+                Q(company_name__icontains=query) |
+                Q(contact_name__icontains=query) |
+                Q(email__icontains=query)
+            ) 
+        return queryset
+    
+    # ▼検索キーワードをテンプレートに返すための設定（UX向上）
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # テンプレートの value="{{ query }}" にわたす値を設定
+        context['query'] = self.request.GET.get('query', '')
+        return context
     
 # 顧客詳細ページ用のビュー
 class CustomerDetailView(LoginRequiredMixin, DetailView):
