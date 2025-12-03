@@ -38,8 +38,9 @@ class CustomerListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(
                 Q(company_name__icontains=query) |
                 Q(contact_name__icontains=query) |
-                Q(email__icontains=query)
-            ) 
+                Q(email__icontains=query) |
+                Q(tags__name__icontains=query) # ▼タグの名前でも検索可能に追加
+            ) .distinct()# ▼重複を除外(重要)
         return queryset
     
     # ▼検索キーワードをテンプレートに返すための設定（UX向上）
