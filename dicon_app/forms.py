@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customer
+from .models import Customer, Activity # Activityモデルのインポートを追加
 
 class CustomerForm(forms.ModelForm):
     class Meta:
@@ -13,4 +13,14 @@ class CustomerForm(forms.ModelForm):
         widgets = {
             'user': forms.Select(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }
+
+class ActivityForm(forms.ModelForm):
+    class Meta:
+        model = Activity
+        fields = ('activity_date','status','note')
+        widgets = {            
+            'activity_date': forms.DateInput(attrs={'type':'date', 'class':'form-control'}), 
+            'status': forms.Select(attrs={'class':'form-control'}),                    
+            'note': forms.Textarea(attrs={'class':'form-control','rows':2}),         
         }
