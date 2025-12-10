@@ -29,5 +29,5 @@ urlpatterns = [
     path('customer/<int:pk>/delete/', CustomerDeleteView.as_view(), name='customer_delete'),
 
     # Ajax処理用URL
-    path('ajax/add_activity/', ajax_add_activity, name='ajax_add_activity'),
+    path('ajax/add_activity/', ajax_add_activity, name='ajax_add_activity'), #12/5追加
 ]

@@ -1,34 +1,34 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q # 既存の検索機能用
-from django.contrib.auth.mixins import LoginRequiredMixin # <-- これを追加
+from django.contrib.auth.mixins import LoginRequiredMixin # <-- 追加
 
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse # JSONを返すために必要 12/5
 from django.views.decorators.http import require_POST # POSTのみ許可
 from django.contrib.auth.decorators import login_required # ログイン必須12/5
 from .models import Customer, Activity #12/5 Activityに変更
-#from .forms import ActivityForm # 後で作ります　ActivityFormをforms.pyに追加
-from .forms import CustomerForm, ActivityForm
+from .forms import CustomerForm, ActivityForm # 後で作ります　ActivityFormをforms.pyに追加12/5
+
+
   
-# 顧客一覧を表示するビュー（ListViewを継承）   
+# 顧客一覧を表示するビュー（ListViewを継承）
 class CustomerListView(LoginRequiredMixin, ListView):
-    
     model = Customer # 1. どのモデルのデータを取得するか
     template_name = 'dicon_app/customer_list.html' # 2. どのテンプレートファイルを使うか
     context_object_name = 'customers' # 3. テンプレート内で使う変数名（指定なしは'object_list'になる）
-    paginate_by = 10# おまけ: 1ページに表示する件数（ページネーション）
+    paginate_by = 10 # おまけ: 1ページに表示する件数（ページネーション）
 
     # おまけ: 並び順の指定（会社名順）
-    #queryset = Customer.objects.all().order_by('company_name')
+    #①queryset = Customer.objects.all().order_by('company_name')
 
     # # このメソッドをオーバーライド（追記）
-    # def get_queryset(self): # ログインしているユーザー(self.request.user)が担当する
+    # ②def get_queryset(self): # ログインしているユーザー(self.request.user)が担当する
     #     return Customer.objects.filter(user=self.request.user).order_by('company_name') # 顧客データのみを会社（名）で取得する
     # 1203修正のためコメアウト
 
     def get_queryset(self):
-        #1. まず、基本となる「自分の担当顧客」を取得（第５回目の内容）
+        #1. まず、基本となる「自分の担当顧客」を取得（第５回目の内容）③最新
         queryset = Customer.objects.filter(user=self.request.user).order_by('company_name')
 
         #2. GETパラメータから　'query'（検索キーワード）を取得
