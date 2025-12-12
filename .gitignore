@@ -7,7 +7,7 @@ _pycache_/
 venv/
 # IDE/Editor
 .vscode/
-.idea
+.idea/
 # Django
 *.sqlite3
 # Secrets

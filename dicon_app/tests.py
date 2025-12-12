@@ -44,7 +44,7 @@ class CustomerViewTests(TestCase):
         # テスト用ユーザーを作成
         self.user = User.objects.create_user(username='testuser', password='password')
 
-        # このユーザーが担当する、、、
+        # このユーザーが担当する顧客を作成
         self.customer = Customer.objects.create(
             company_name= "自分の担当顧客",
             contact_name= "担当者A",
@@ -56,14 +56,14 @@ class CustomerViewTests(TestCase):
         self.other_user = User.objects.create_user(username='otheruser', password='password')
 
     def test_login_required(self):
-        """ログインしていない場合"""
-        # ログインせずに
+        """ログインしていない場合、ログインページにリダイレクトされるか"""
+        # ログインせずに一覧ページにアクセス
         response = self.client.get(reverse('customer_list'))
 
-        # 302
+        # 302リダイレクト（ログインページへ飛ばされる）はず
         self.assertEqual(response.status_code, 302)
 
-        # リダイレクト先がログインページ
+        # リダイレクト先がログインページであることを確認
         self.assertIn('/accounts/login/',response.url)
 
     def test_logged_in_users_can_see_list(self):
@@ -71,26 +71,26 @@ class CustomerViewTests(TestCase):
         # 1.ログインする
         self.client.force_login(self.user)
 
-        # 2.一覧ページに
+        # 2.一覧ページにアクセス
         response = self.client.get(reverse('customer_list'))
 
-        # 3.正常に表示される
+        # 3.正常に表示される（ステータスコード200）はず
         self.assertEqual(response.status_code, 200)
 
-        # 4.画面に自分の担当顧客
+        # 4.画面に「自分の担当顧客」という文字が含まれているか検証
         self.assertContains(response, "自分の担当顧客")
 
     def test_cannot_see_others_data(self):
-        """ログインユーザーは自分の担当顧客を見られるか"""
+        """別のユーザーでログインした場合、他人のデータは見えないはず"""
         # 1.別のユーザーでログインする　他人のが見えない
         self.client.force_login(self.other_user)
 
         # 2.一覧ページにアクセス
         response = self.client.get(reverse('customer_list'))
 
-        # 3.200
+        # 3.ページ自体は表示される（200）が...
         self.assertEqual(response.status_code, 200)
 
-        # 4.表示されない
+        # 4.他人の顧客データ（self.customer）は表示されていないはず
         self.assertNotContains(response, "自分の担当顧客")
         
