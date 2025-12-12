@@ -1,4 +1,4 @@
-#!/usr/bin/env/bash
+#!/usr/bin/env bash
 #エラーが起きたら即停止する設定
 set -o errexit
 
