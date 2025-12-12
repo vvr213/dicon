@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'dicon_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# デフォルトはSQLite（開発用）
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -130,9 +131,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFIELES_DIRS = [BASE_DIR / "staticfiles"]#12/12
-STATIC_ROOT = BASE_DIR / "staticfiles"#12/12
-STATICFIELES_STORAGE = 'whitenoise.storage.CompresseManifestStaticFilesStorage'#12/12
+
+# ▼以下を追加12/12
+#1.開発中にstaticフォルダに置いたファイルを集める場所 12/12
+STATICFILES_DIRS = [BASE_DIR / "static"]
+# もしstaticフォルダを作っていない場合は、からリスト[]でもOK、またはフォルダを作成
+
+#2.本番環境で、全アプリの静的ファイルを集約する場所　12/12
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+#3.WhiteNoiseが圧縮して配信するための設定 12/12
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
