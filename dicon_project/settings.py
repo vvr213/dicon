@@ -30,10 +30,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY') # .envから読み込むように変�
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
+# .envから読み込む（なければFalseになる安全策）
 DEBUG = os.environ.get('DEBAG','False') == 'True'
-
+# 許可するドメイン。本番ではRenderのURLが入る。
+# '*'波全許可だが、今回は簡易的に設定（実務ではドメイン指定推奨）
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
